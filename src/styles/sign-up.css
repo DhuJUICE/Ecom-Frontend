@@ -1,0 +1,156 @@
+.sign-up fieldset {
+    border: solid 2px #b44320;
+    height: auto;
+    width: 60%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #fdf4e3; 
+}
+
+.sign-up form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.sign-up label {
+    margin-bottom: 10px; 
+    font-size: 20px; 
+    color: #611903; 
+    font-weight: 600;
+}
+
+.sign-up input[type="email"], 
+.sign-up input[type="password"], 
+.sign-up input[type="text"] {
+    width: 90%; 
+    padding: 10px; 
+    margin-bottom: 20px; 
+    border: 2px solid #b44320; 
+    border-radius: 10px; 
+    font-size: 16px; 
+    color: #611903; 
+    background-color: #fff; 
+}
+
+.sign-up input[type="email"]:focus, 
+.sign-up input[type="password"]:focus, 
+.sign-up input[type="text"]:focus {
+    border-color: #ffe601;
+    outline: none; 
+    box-shadow: 0 0 5px #ffe601;
+}
+
+.sign-up .heading h1 {
+    color: red;
+    font-weight: bolder;
+    font-size: 40px;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    width: 100%; /* Adjusted to make it responsive */
+}
+
+.sign-up .show-password {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 5px;
+    justify-content: flex-start; /* Align to left */
+}
+
+.sign-up .show-password label {
+    margin-left: 5px;
+    font-size: 16px;
+    color: #611903;
+}
+
+.sign-up fieldset button {
+    width: 50%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #b44320;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
+.sign-up fieldset button:hover {
+    background-color: #ffe601; 
+    color: #611903; 
+    transform: scale(1.05); 
+}
+
+.sign-up fieldset button:active {
+    transform: scale(0.95); 
+}
+
+/* Responsive Design */
+
+/* xs (Extra small: phones) */
+@media (max-width: 475px) {
+    .sign-up fieldset {
+        width: 90%; /* Reduce width for smaller screens */
+    }
+    .sign-up .heading h1 {
+        font-size: 30px; /* Smaller font size */
+    }
+    .sign-up input[type="email"], 
+    .sign-up input[type="password"], 
+    .sign-up input[type="text"] {
+        width: 100%; /* Full width inputs */
+    }
+    .sign-up .show-password {
+        justify-content: center; /* Center align on smaller screens */
+    }
+    .sign-up fieldset button {
+        width: 80%; /* Adjust button width */
+    }
+}
+
+/* sm (Small: tablets in portrait) */
+@media (max-width: 640px) {
+    .sign-up fieldset {
+        width: 80%;
+    }
+    .sign-up .heading h1 {
+        font-size: 35px;
+    }
+}
+
+/* md (Medium: tablets in landscape) */
+@media (max-width: 768px) {
+    .sign-up fieldset {
+        width: 70%;
+    }
+}
+
+/* lg (Large: small desktops) */
+@media (max-width: 1024px) {
+    .sign-up fieldset {
+        width: 60%;
+    }
+}
+
+/* xl (Extra large: larger desktops) */
+@media (max-width: 1280px) {
+    .sign-up fieldset {
+        width: 55%;
+    }
+}
+
+/* 2xl (Extra-extra large: very large screens) */
+@media (max-width: 1536px) {
+    .sign-up fieldset {
+        width: 50%;
+    }
+}

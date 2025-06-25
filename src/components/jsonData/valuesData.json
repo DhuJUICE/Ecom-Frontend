@@ -1,0 +1,35 @@
+{
+    "values": [
+      {
+        "title": "Serve",
+        "image": "images/serve.avif",
+        "alt": "Serve",
+        "content": "At the heart of everything we do is our commitment to serving others. Whether it’s through our delicious meals or community outreach, we strive to exceed expectations and bring joy to those we serve."
+      },
+      {
+        "title": "Inclusion",
+        "image": "images/inclusion.jpg",
+        "alt": "Inclusion",
+        "content": "We celebrate diversity and embrace people from all walks of life. Our environment fosters inclusivity, ensuring everyone feels valued and welcome."
+      },
+      {
+        "title": "Integrity",
+        "image": "images/intergrity.png",
+        "alt": "Integrity",
+        "content": "Honesty and transparency guide our actions. We are committed to upholding the highest ethical standards in every aspect of our business."
+      },
+      {
+        "title": "Community",
+        "image": "images/community.avif",
+        "alt": "Community",
+        "content": "We believe in giving back and building strong connections. Supporting and uplifting our community is integral to our mission."
+      },
+      {
+        "title": "Family",
+        "image": "images/famiily.avif",
+        "alt": "Family",
+        "content": "Our workplace feels like home because we treat each other like family. Together, we create a supportive and nurturing environment."
+      }
+    ]
+  }
+  

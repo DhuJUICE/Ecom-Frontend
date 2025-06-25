@@ -1,0 +1,249 @@
+.cart-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    color: #611903;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #000;
+}
+
+.cart-container .cart-grid img{
+    width: 150px;
+    height: 150px;
+}
+
+.cart-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: red;
+    font-size: 60px;
+    font-weight: bolder;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 2px solid #000;
+}
+
+.cart-table th, .cart-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-table th {
+    background-color: #ffe601;
+    color: #611903;
+}
+
+
+.cart-table td .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.cart-table td .actions button {
+    background-color: #b44320;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.cart-table td .actions .add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+
+.cart-table td .actions .minus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+
+.cart-table td button:hover {
+    background-color: #611903;
+}
+
+.cart-table td .add:hover {
+    background-color: #02ac43; 
+}
+
+.cart-table td .minus:hover {
+    background-color: #ff0000; 
+}
+
+.cart-summary {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.cart-summary p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.checkout-btn {
+    background-color: #b44320;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.checkout-btn:hover {
+    background-color: #611903;
+}
+
+/* Responsive Design */
+/* xs */
+@media (max-width: 475px){
+    .cart-table td .actions{
+        font-size: 9px;
+    }
+    
+    .cart-table .content {
+        font-size: 12px;
+    }
+
+    .cart-table td .add {
+        height: 20px;
+        width: 20px;
+        left: 50px;
+        top: 10px;
+        font-size: 10px;
+    }
+
+    .cart-table td .minus {
+        height: 20px;
+        width: 20px;
+        left: 50px;
+        top: 10px;
+        font-size: 10px;
+    }
+
+    .cart-container h2 {
+        font-size: 40px;
+    }
+
+    .cart-table {
+        width: 250px;
+    }
+}
+
+/* sm */
+@media (max-width: 640px){
+    .cart-table td .actions{
+        font-size: 12px;
+    }
+    
+    .cart-table .content {
+        font-size: 15px;
+    }
+
+    .cart-table td .add {
+        height: 20px;
+        width: 20px;
+        left: 50px;
+        top: 10px;
+        font-size: 10px;
+    }
+
+    .cart-table td .minus {
+        height: 20px;
+        width: 20px;
+        left: 50px;
+        top: 10px;
+        font-size: 10px;
+    }
+}
+
+/* md */
+@media (max-width: 768px){
+    .cart-table td .add {
+        height: 20px;
+        width: 20px;
+        left: 150px;
+        top: 10px;
+        font-size: 10px;
+    }
+
+    .cart-table td .minus {
+        height: 20px;
+        width: 20px;
+        left: 150px;
+        top: 10px;
+        font-size: 10px;
+    }
+}
+
+/* lg */
+@media (max-width: 1024px){
+    .cart-table td .add {
+        height: 20px;
+        width: 20px;
+        left: 150px;
+        top: 10px;
+        font-size: 10px;
+    }
+
+    .cart-table td .minus {
+        height: 20px;
+        width: 20px;
+        left: 150px;
+        top: 10px;
+        font-size: 10px;
+    }
+}
+
+/* xl */
+@media (max-width: 1280px){
+    .cart-table td .add {
+        height: 20px;
+        width: 20px;
+        left: 150px;
+        top: 10px;
+        font-size: 10px;
+    }
+
+    .cart-table td .minus {
+        height: 20px;
+        width: 20px;
+        left: 150px;
+        top: 10px;
+        font-size: 10px;
+    }
+}
+
+/* 2xl */
+@media (max-width: 1536px){
+    .cart-table td .add {
+        height: 20px;
+        width: 20px;
+        left: 150px;
+        top: 10px;
+        font-size: 10px;
+    }
+
+    .cart-table td .minus {
+        height: 20px;
+        width: 20px;
+        left: 150px;
+        top: 10px;
+        font-size: 10px;
+    }
+}

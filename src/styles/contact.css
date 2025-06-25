@@ -1,0 +1,300 @@
+.hello{
+    width: 100%;
+    height: auto;
+}
+
+.hello img{
+    width: 100%;
+    height: 200px;
+}
+
+.contact-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-info .line {
+    border-left: 4px solid red;
+    padding-left: 10px;
+    color: red;
+    font-size: 50px;
+    line-height: 55px;  
+}
+
+.contact-info .highlight {
+    font-weight: bold;
+    color: red;
+    font-size: 50px;
+}
+
+.contact-info p{
+    width: 80%;
+    font-size: 20px;
+    margin: 20px;
+}
+
+.user-input{
+    background-color: #e2e2e2b6;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 80px;
+    padding-top: 30px;
+    padding-bottom: 110px;
+    width: 100%;
+}
+
+.user-input .left{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-input .left input{
+    height: 40px;
+    width: 500px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.user-input .left select{
+    height: 50px;
+    width: 500px;
+    padding: 0px 4px; /* Add padding for better spacing */
+    font-size: 14px;
+    border-radius: 5px; /* Slightly rounded corners for a clean look */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.user-input .right{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.user-input .right textarea{
+    height: 200px;
+    width: 500px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+
+    font-size: 15px;
+}
+
+.user-input .right button{
+    height: 50px;
+    width: 150px;
+    padding: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: bold;
+    background-color: red;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    top: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.user-input .right button:hover{
+    background-color: rgb(146, 1, 1);
+}
+
+/* Responsive Design */
+/* xs */
+@media (max-width: 475px){
+    .hello img{
+        height: 200px;
+    }
+    .contact-info{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contact-info p{
+        font-size: 15px;
+    }
+
+    .user-input{
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .user-input .left{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .user-input .left input{
+        height: 40px;
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .user-input .left select{
+        height: 40px;
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .user-input .right{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .user-input .right textarea{
+        height: 200px;
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;;
+        font-size: 15px;
+    }
+}
+
+/* sm */
+@media (max-width: 640px){
+    .contact-info p{
+        font-size: 15px;
+    }
+
+    .user-input{
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .user-input .left{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .user-input .left input{
+        height: 40px;
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .user-input .left select{
+        height: 40px;
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .user-input .right{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .user-input .right textarea{
+        height: 200px;
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;;
+        font-size: 15px;
+    }
+}
+
+/* md */
+@media (max-width: 768px){
+    .user-input{
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .user-input .left{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .user-input .left input{
+        height: 40px;
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .user-input .left select{
+        height: 40px;
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .user-input .right{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .user-input .right textarea{
+        height: 100px;
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;;
+        font-size: 15px;
+    }
+}
+
+/* lg */
+@media (max-width: 1024px){
+    .user-input{
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .user-input .left{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .user-input .left input{
+        height: 40px;
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .user-input .left select{
+        height: 40px;
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .user-input .right{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .user-input .right textarea{
+        height: 100px;
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;;
+        font-size: 15px;
+    }
+}
+
+/* xl */
+@media (max-width: 1280px){
+
+}
+
+/* 2xl */
+@media (max-width: 1536px){
+
+}

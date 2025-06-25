@@ -1,0 +1,262 @@
+.about-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #d2b303;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.about-container .heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-container .heading img {
+    height: 250px;
+}
+
+.about-container .heading h1 {
+    color: red;
+    font-weight: bolder;
+    font-size: 60px;
+}
+
+.about-container .about-us {
+    width: 70%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 20px;
+}
+
+.about-info {
+    margin-top: 50px;
+    margin-left: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-info .line {
+    border-left: 4px solid red;
+    color: red;
+    font-size: 60px;
+    line-height: 55px;
+    margin-left: 20px;
+}
+
+.about-info .highlight {
+    font-weight: bold;
+    color: red;
+    font-size: 70px;
+}
+
+.about-info .about {
+    width: 80%;
+    font-size: 20px;
+    margin: 20px;
+}
+
+.about-info .special {
+    width: 75%;
+    font-size: 20px;
+    margin: 20px;
+    color: #000;
+}
+
+.about-info .commitment {
+    width: 63%;
+    font-size: 20px;
+    margin: 20px;
+}
+
+/* Responsive Design */
+/* xs */
+@media (max-width: 475px){
+    
+    .about-container .heading h1 {
+        font-size: 40px;
+    }
+    
+    .about-container .about-us {
+        font-size: 15px;
+    }
+
+    .about-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .about-info .line {
+        font-size: 40px;
+        line-height: 55px;
+    }
+    
+    .about-info .highlight {
+        font-size: 50px;
+    }
+    
+    .about-info .about {
+        width: 80%;
+        font-size: 15px;
+    }
+    
+    .about-info .special {
+        width: 80%;
+        font-size: 15px;
+    }
+    
+    .about-info .commitment {
+        width: 80%;
+        font-size: 15px;
+    }
+}
+
+/* sm */
+@media (max-width: 640px){
+    .about-container .heading img {
+        height: 150px;
+    }
+    
+    .about-container .heading h1 {
+        font-size: 40px;
+    }
+    
+    .about-container .about-us {
+        font-size: 20px;
+    }
+
+    .about-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .about-info .line {
+        font-size: 40px;
+        line-height: 55px;
+    }
+    
+    .about-info .highlight {
+        font-size: 50px;
+    }
+    
+    .about-info .about {
+        width: 80%;
+        font-size: 15px;
+    }
+    
+    .about-info .special {
+        width: 80%;
+        font-size: 15px;
+    }
+    
+    .about-info .commitment {
+        width: 80%;
+        font-size: 15px;
+    }
+}
+
+/* md */
+@media (max-width: 768px){    
+    .about-container .heading img {
+        height: 150px;
+    }
+    
+    .about-container .heading h1 {
+        font-size: 40px;
+    }
+    
+    .about-container .about-us {
+        font-size: 20px;
+    }
+
+    .about-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .about-info .line {
+        font-size: 40px;
+        line-height: 55px;
+    }
+    
+    .about-info .highlight {
+        font-size: 50px;
+    }
+    
+    .about-info .about {
+        width: 80%;
+        font-size: 18px;
+    }
+    
+    .about-info .special {
+        width: 80%;
+        font-size: 18px;
+    }
+    
+    .about-info .commitment {
+        width: 80%;
+        font-size: 18px;
+    }
+}
+
+/* lg */
+@media (max-width: 1024px){
+    .about-container .heading img {
+        height: 150px;
+    }
+    
+    .about-container .heading h1 {
+        font-size: 60px;
+    }
+    
+    .about-container .heading h1 {
+        font-size: 40px;
+    }
+
+    .about-info .line {
+        font-size: 30px;
+        line-height: 45px;
+    }
+    
+    .about-info .highlight {
+        font-size: 40px;
+    }
+
+    .about-info .about {
+        width: 80%;
+        font-size: 18px;
+    }
+    
+    .about-info .special {
+        width: 80%;
+        font-size: 18px;
+    }
+    
+    .about-info .commitment {
+        width: 80%;
+        font-size: 18px;
+    }
+}
+
+/* xl */
+@media (max-width: 1280px){
+    .about-container .heading img {
+        height: 150px;
+    }
+    
+    .about-container .heading h1 {
+        font-size: 40px;
+    }   
+}
+
+/* 2xl */
+@media (max-width: 1536px){
+    .about-container .heading img {
+        height: 150px;
+    }
+}
