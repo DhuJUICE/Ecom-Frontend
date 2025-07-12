@@ -33,6 +33,7 @@ const Sign_In = () => {
 
       // ✅ Go to the menu page
       navigate('/menu');
+	  window.location.reload(); // forces a full reload so Footer & everything else update
     } else {
       alert(result.message); // Show error if failed
     }
