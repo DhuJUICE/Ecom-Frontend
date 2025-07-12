@@ -1,0 +1,106 @@
+/* Base styles */
+.menu {
+	margin: 20px;
+	padding: 10px;
+  }
+  
+  .row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: center;
+  }
+  
+  /* Product card layout */
+  .product-card {
+	background-color: #fff;
+	border-radius: 6px;
+	padding: 10px;
+	box-sizing: border-box;
+	text-align: center;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	transition: transform 0.2s ease-in-out;
+	width: calc(33.33% - 20px);
+	min-width: 100px;
+	max-width: 200px;
+  
+	/* Flexbox to align elements */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between; /* Ensures the buttons stay at the bottom */
+	height: 300px; /* Set a fixed height to maintain consistent layout */
+  }
+  
+  .product-card:hover {
+	transform: scale(1.05);
+  }
+  
+  .product-card img {
+	width: 100%;
+	max-width: 180px;
+	height: auto;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	margin: 0 auto;
+  }
+  
+  /* Action buttons container */
+  .action-buttons {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	margin-top: auto; /* Push buttons to bottom */
+  }
+  
+  /* Approve and Reject Buttons */
+  .approve-btn,
+  .reject-btn {
+	flex: 1; /* Equal width */
+	padding: 8px 12px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 16px;
+	transition: background-color 0.2s ease;
+	color: white;
+  }
+  
+  .approve-btn {
+	background-color: #4CAF50; /* Green */
+  }
+  
+  .approve-btn:hover {
+	background-color: #31dd39e8;
+  }
+  
+  .reject-btn {
+	background-color: #f44336; /* Red */
+  }
+  
+  .reject-btn:hover {
+	background-color: #d73223;
+  }
+  
+  /* Responsive design */
+  /* <= 768px: 3 per row */
+  @media (max-width: 768px) {
+	.product-card {
+	  width: calc(33.33% - 20px);
+	}
+  }
+  
+  /* <= 640px: 3 per row */
+  @media (max-width: 640px) {
+	.product-card {
+	  width: calc(33.33% - 20px);
+	}
+  }
+  
+  /* <= 475px: still 3 per row (tight fit) */
+  @media (max-width: 475px) {
+	.product-card {
+	  width: calc(33.33% - 10px);
+	}
+  }
+  

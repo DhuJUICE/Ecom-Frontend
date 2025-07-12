@@ -1,35 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/menu.css';
-import { addToCart } from './apiComponents/api-cart';
+import '../styles/owner-mgmt-products.css';
 import { preloadOwnerProductData } from './preLoadMenuData/preloadOwnerProducts';
 
 const Menu = () => {
   const [products, setProducts] = useState([]);
-  const [quantities, setQuantities] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-	const loadData = async () => {
-	  const data = await preloadOwnerProductData();
-	  setProducts(data || []);
-	  setLoading(false);
-	};
-  
-	loadData();
+    const loadData = async () => {
+      const data = await preloadOwnerProductData();
+      setProducts(data || []);
+      setLoading(false);
+    };
+
+    loadData();
   }, []);
 
-  const handleAddToCart = async (productId, quantity) => {
-    const accessToken = !!localStorage.getItem("accessToken");
-    if (accessToken) {
-      const result = await addToCart(productId, quantity);
-      if (result.success) {
-        alert("Item added to cart!");
-      } else {
-        alert(result.message || "Failed to add item.");
-      }
-    } else {
-      alert("You must be logged in to add to cart");
-    }
+  const handleEditProduct = (productId) => {
+    // TODO: Implement the edit product logic here
+    // For example, redirect to an edit page or open a modal
+    alert(`Edit product with ID: ${productId}`);
   };
 
   return (
@@ -53,10 +43,10 @@ const Menu = () => {
                   <p>R{product.prodPrice}</p>
 
                   <button
-                    className="add-to-cart"
-                    onClick={() => handleAddToCart(product.id, quantities[product.id] || 1)}
+                    className="edit-product-btn"
+                    onClick={() => handleEditProduct(product.id)}
                   >
-                    Add to Cart
+                    Edit Product
                   </button>
                 </div>
               ))}

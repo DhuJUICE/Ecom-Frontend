@@ -1,35 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/menu.css';
-import { addToCart } from './apiComponents/api-cart';
+import '../styles/moderate.css';
 import { preloadModerationProductData } from './preLoadMenuData/preloadModerationProducts';
 
 const Menu = () => {
   const [products, setProducts] = useState([]);
-  const [quantities, setQuantities] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-	const loadData = async () => {
-	  const data = await preloadModerationProductData();
-	  setProducts(data || []);
-	  setLoading(false);
-	};
-  
-	loadData();
+    const loadData = async () => {
+      const data = await preloadModerationProductData();
+      setProducts(data || []);
+      setLoading(false);
+    };
+
+    loadData();
   }, []);
 
-  const handleAddToCart = async (productId, quantity) => {
-    const accessToken = !!localStorage.getItem("accessToken");
-    if (accessToken) {
-      const result = await addToCart(productId, quantity);
-      if (result.success) {
-        alert("Item added to cart!");
-      } else {
-        alert(result.message || "Failed to add item.");
-      }
-    } else {
-      alert("You must be logged in to add to cart");
-    }
+  const handleApprove = async (productId) => {
+    // TODO: Add your approve API call here
+    alert(`Approve product ID: ${productId}`);
+    // Optionally remove or update the product in the UI after approval
+  };
+
+  const handleReject = async (productId) => {
+    // TODO: Add your reject API call here
+    alert(`Reject product ID: ${productId}`);
+    // Optionally remove or update the product in the UI after rejection
   };
 
   return (
@@ -52,12 +48,20 @@ const Menu = () => {
                   <p>{product.prodName}</p>
                   <p>R{product.prodPrice}</p>
 
-                  <button
-                    className="add-to-cart"
-                    onClick={() => handleAddToCart(product.id, quantities[product.id] || 1)}
-                  >
-                    Add to Cart
-                  </button>
+                  <div className="action-buttons">
+                    <button
+                      className="approve-btn"
+                      onClick={() => handleApprove(product.id)}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="reject-btn"
+                      onClick={() => handleReject(product.id)}
+                    >
+                      Reject
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
