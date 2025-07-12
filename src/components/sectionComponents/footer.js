@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../App.css';
 import UploadButton from '../buttonComponents/upload-button';
+import OwnerMgmtButton from '../buttonComponents/owner-mgmt-button';
+import ModerateButton from '../buttonComponents/moderation-button';
 
 const Footer = () => {
   const isBusinessOwner = localStorage.getItem('business_owner') === 'true';
@@ -17,6 +19,8 @@ const Footer = () => {
         </div>
         
         {/* Conditionally render the UploadButton */}
+        {isBusinessOwner && <ModerateButton />}
+        {isBusinessOwner && <OwnerMgmtButton />}
         {isBusinessOwner && <UploadButton />}
       </div>
 

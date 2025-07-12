@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/sign-in.css';
 import { signIn } from '../apiComponents/api-signIn';
-import { preloadMenuData } from '../preLoadMenuData/preloadMenu'; // 🔁 Reuse preload logic
+import { preloadMenuProductData } from '../preLoadMenuData/preloadMenuProducts'; // 🔁 Reuse preload logic
 import { removeAccessToken, removeRefreshToken, removeBusinessOwner} from '../tokenManagement/tokenManager'; // Import tokenManager functions
 
 const Sign_In = () => {
@@ -26,10 +26,12 @@ const Sign_In = () => {
     const result = await signIn(userName, userPassword);
 
     if (result.success) {
+      // ⏳ Preload products before navigating
+      await preloadMenuProductData();
+	  
       alert('Sign-in successful! Welcome back.');
 
-      // ⏳ Preload products before navigating
-      await preloadMenuData();
+
 
       // ✅ Go to the menu page
       navigate('/menu');

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/menu.css';
 import { addToCart } from './apiComponents/api-cart';
-import { preloadMenuProductData } from './preLoadMenuData/preloadMenuProducts';
+import { preloadModerationProductData } from './preLoadMenuData/preloadModerationProducts';
 
 const Menu = () => {
   const [products, setProducts] = useState([]);
@@ -10,7 +10,7 @@ const Menu = () => {
 
   useEffect(() => {
 	const loadData = async () => {
-	  const data = await preloadMenuProductData();
+	  const data = await preloadModerationProductData();
 	  setProducts(data || []);
 	  setLoading(false);
 	};
@@ -41,7 +41,7 @@ const Menu = () => {
           </div>
         ) : products.length === 0 ? (
           <div className="loading-container">
-            <p>No products available at the moment.</p>
+            <p>No products to be moderated at this point.</p>
           </div>
         ) : (
           <div className="menu">

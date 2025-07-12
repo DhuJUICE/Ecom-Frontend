@@ -18,6 +18,8 @@ import UploadProduct from "./components/upload-products";
 import "./App.css";
 import Header from './components/sectionComponents/header'; // Import Header component
 import Footer from './components/sectionComponents/footer'; // Import Footer component
+import ModerateProduct from './components/moderation-page';
+import OwnerManageProducts from './components/owner-mgmt-page';
 
 // Load your Stripe public key
 const stripePromise = loadStripe("pk_test_51Q7V6fP3W3PNlhUH4jkTVZDpXEN9S341jGJJyl2paPsPZEn8frJp4PKH0lyrzz3cE2gyThoKTlbjCCCENQvHgPye00CWjmk9L5");
@@ -44,6 +46,8 @@ function App() {
                 <Route path="/sign-in" element={<Sign_In />} />
                 <Route path="/sign-up" element={<Sign_Up />} />
                 <Route path="/upload-product" element={<UploadProduct />} />
+				<Route path="/moderate-product" element={<ModerateProduct />} />
+				<Route path="/owner-mgmt-product" element={<OwnerManageProducts />} />
               </Routes>
             </Elements>
           </div>

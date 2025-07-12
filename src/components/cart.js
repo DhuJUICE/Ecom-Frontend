@@ -1,56 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { useCart } from "../cart-context";
 import Checkout from './checkout';  
 import '../styles/cart.css';
 import { Link } from 'react-router-dom'; 
-import {fetchCartItems, incrementCartItemAPI, decrementCartItemAPI, removeItemFromCartAPI} from './apiComponents/api-cart';
+import { incrementCartItemAPI, decrementCartItemAPI, removeItemFromCartAPI } from './apiComponents/api-cart';
+import { preloadCartProductData } from './preLoadMenuData/preloadCartProducts';
 
 const Cart = () => {
   const [popupMessage, setPopupMessage] = useState(""); 
   const [loading, setLoading] = useState(true); 
-  const { cart, setCart } = useCart();
+  const [cartItems, setCartItems] = useState([]); // ✅ local state instead of useCart
   const [isCheckoutPage, setIsCheckoutPage] = useState(false);
   const [showCartPage, setShowCartPage] = useState(true);
 
   useEffect(() => {
-    fetchCartItems(setCart, setLoading, setPopupMessage);
-  }, [setCart]);
+    const loadCart = async () => {
+      const data = await preloadCartProductData();
+      if (data) {
+        setCartItems(data);
+      }
+      setLoading(false);
+    };
 
-  const modifyCartItem = (id, action) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + action) }
-          : item
-      )
-    );
-  };
+    loadCart();
+  }, []);
 
-  //increment specific products quantity in user cart
   const incrementCartItem = async (productId) => {
     const result = await incrementCartItemAPI(productId);
     if (!result.success) {
       alert(result.message);
       return;
     }
-  
-    setCart((prevCart) =>
-      prevCart.map((item) =>
+
+    setCartItems((prev) =>
+      prev.map((item) =>
         item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
   };
-  
-  //decrement specific products quantity in user cart
+
   const decrementCartItem = async (productId) => {
     const result = await decrementCartItemAPI(productId);
     if (!result.success) {
       alert(result.message);
       return;
     }
-  
-    setCart((prevCart) =>
-      prevCart.map((item) =>
+
+    setCartItems((prev) =>
+      prev.map((item) =>
         item.id === productId && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
           : item
@@ -58,24 +54,22 @@ const Cart = () => {
     );
   };
 
-  //remove specific product from users cart
   const removeItemFromCart = async (id) => {
     const result = await removeItemFromCartAPI(id);
     if (!result.success) {
       alert(result.message);
       return;
     }
-  
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
-  
 
   const calculateTotal = () => {
-    return cart.reduce((total, item) => total + item.prodPrice * item.quantity, 0);
+    return cartItems.reduce((total, item) => total + item.prodPrice * item.quantity, 0);
   };
 
   const goToCheckout = () => {
-    if (cart.length === 0) {
+    if (cartItems.length === 0) {
       alert("Your cart is empty!");
     } else {
       localStorage.setItem("cartSubtotal", calculateTotal().toFixed(2));
@@ -97,11 +91,11 @@ const Cart = () => {
 
             {popupMessage && <p className="error-message">{popupMessage}</p>}
 
-            {cart.length === 0 ? (
+            {cartItems.length === 0 ? (
               <p>Your cart is empty.</p>
             ) : (
               <div className="cart-grid">
-                {cart.map((item) => (
+                {cartItems.map((item) => (
                   <div key={item.id} className="cart-item">
                     <img className="item-image" src={item.image} alt={item.name} />
                     <div className="item-details">

@@ -1,17 +1,11 @@
 import { API_URL } from "./api-base-url";
 import { getAccessToken } from "../tokenManagement/tokenManager"; //import tokenManager to manage the accessToken
 
-export const fetchCartItems = async (setCart, setLoading, setPopupMessage = () => {}) => {
+export const fetchCartItems = async () => {
   try {
-    setLoading(true);
     const token = getAccessToken();
-
-    if (!token) {
-      alert("Session expired. Please log in again.");
-      setLoading(false);
-      return;
-    }
-
+	if (!token) return { success: false, message: "User not authenticated" };
+	
     const response = await fetch(`${API_URL}/api/cart`, {
       method: "GET",
       headers: {
@@ -20,17 +14,10 @@ export const fetchCartItems = async (setCart, setLoading, setPopupMessage = () =
       },
     });
 
-    if (response.status === 401) {
-      alert("You are not logged in. Please sign in to view your cart.");
-      setLoading(false);
-      return;
-    }
-
     const result = await response.json();
 
     if (!result.success || result.message) {
-      setPopupMessage(result.message || "Failed to fetch cart. Please try again later.");
-      setLoading(false);
+      alert(result.message || "Failed to fetch cart. Please try again later.");
       return;
     }
 
@@ -49,19 +36,16 @@ export const fetchCartItems = async (setCart, setLoading, setPopupMessage = () =
             quantity: cartItems[productId] || 1,
           };
         } catch (error) {
-          console.error(`Error fetching product ${productId}:`, error);
+          alert(`Error fetching cart product ${productId}:`, error);
           return null;
         }
       })
     );
 
     const filteredProducts = productDetails.filter((item) => item !== null);
-    setCart(filteredProducts);
-    setLoading(false);
+	return filteredProducts;
   } catch (error) {
-    console.error("Error fetching cart:", error);
-    setPopupMessage("Failed to load cart items.");
-    setLoading(false);
+    alert("Error fetching cart:", error);
   }
 };
 

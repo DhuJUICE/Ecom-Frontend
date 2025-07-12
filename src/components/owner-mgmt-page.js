@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/menu.css';
 import { addToCart } from './apiComponents/api-cart';
-import { preloadMenuProductData } from './preLoadMenuData/preloadMenuProducts';
+import { preloadOwnerProductData } from './preLoadMenuData/preloadOwnerProducts';
 
 const Menu = () => {
   const [products, setProducts] = useState([]);
@@ -10,7 +10,7 @@ const Menu = () => {
 
   useEffect(() => {
 	const loadData = async () => {
-	  const data = await preloadMenuProductData();
+	  const data = await preloadOwnerProductData();
 	  setProducts(data || []);
 	  setLoading(false);
 	};
@@ -41,7 +41,7 @@ const Menu = () => {
           </div>
         ) : products.length === 0 ? (
           <div className="loading-container">
-            <p>No products available at the moment.</p>
+            <p>You have not uploaded any products to the platform.</p>
           </div>
         ) : (
           <div className="menu">

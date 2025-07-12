@@ -1,25 +1,26 @@
 // src/apiComponents/cache-cart-products.js
 
-const CACHE_KEY = "cartProductsCache";
-const CACHE_EXPIRY_KEY = "cartProductsCacheExpiry";
-const CACHE_DURATION_MS = 1 * 60 * 1000; // Cache expires in 1 minutes
+// Get and cache cart products
+const CART_CACHE_KEY = 'cachedCartProducts';
+const CART_CACHE_MINUTES = 5;
+const CART_CACHE_TIME = CART_CACHE_MINUTES * 60 * 1000; // 1 minute caching
 
 export const getCachedCartProducts = () => {
-  const cachedData = localStorage.getItem(CACHE_KEY);
-  const cacheExpiry = localStorage.getItem(CACHE_EXPIRY_KEY);
+  const cachedData = localStorage.getItem(CART_CACHE_KEY);
+  const cachedTimestamp = localStorage.getItem(`${CART_CACHE_KEY}_timestamp`);
 
-  if (!cachedData || !cacheExpiry) return null;
-
-  if (Date.now() > parseInt(cacheExpiry, 10)) {
-    localStorage.removeItem(CACHE_KEY);
-    localStorage.removeItem(CACHE_EXPIRY_KEY);
-    return null;
+  if (cachedData && cachedTimestamp) {
+    const now = Date.now();
+    if (now - parseInt(cachedTimestamp, 10) < CART_CACHE_TIME) {
+      // alert('Using cached cart products');
+      return JSON.parse(cachedData);
+    }
   }
 
-  return JSON.parse(cachedData);
+  return null;
 };
 
-export const setCachedCartProducts = (products) => {
-  localStorage.setItem(CACHE_KEY, JSON.stringify(products));
-  localStorage.setItem(CACHE_EXPIRY_KEY, (Date.now() + CACHE_DURATION_MS).toString());
+export const cacheCartProducts = (products) => {
+  localStorage.setItem(CART_CACHE_KEY, JSON.stringify(products));
+  localStorage.setItem(`${CART_CACHE_KEY}_timestamp`, Date.now().toString());
 };
