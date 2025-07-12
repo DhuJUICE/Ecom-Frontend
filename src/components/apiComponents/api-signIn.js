@@ -1,5 +1,5 @@
 import { API_URL } from "./api-base-url"; // Import the API base URL
-import { setAccessToken, setRefreshToken } from '../tokenManagement/tokenManager'; // Import token manager functions
+import { setAccessToken, setRefreshToken, setBusinessOwner} from '../tokenManagement/tokenManager'; // Import token manager functions
 
 // Function to handle the sign-in API call
 export const signIn = async (userName, userPassword) => {
@@ -16,8 +16,8 @@ export const signIn = async (userName, userPassword) => {
       // Use token manager to store tokens
       setAccessToken(data.access); // Save access token with expiry time
       setRefreshToken(data.refresh); // Save refresh token without expiry time (optional)
-	  //store the is_staff attribute in the frontend local storage
-	  localStorage.setItem("business_owner", data.is_staff);
+	  setBusinessOwner(data.is_staff); //save the is_staff to indicate business owner for role based access control
+
       return { success: true };
     } else {
       return { success: false, message: 'Login failed. Please check your credentials.' };

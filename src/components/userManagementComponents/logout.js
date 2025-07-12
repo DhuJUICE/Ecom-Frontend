@@ -1,7 +1,7 @@
 // src/components/Logout.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
-import { getAccessToken, removeAccessToken, removeRefreshToken } from '../tokenManagement/tokenManager'; // Import tokenManager functions
+import { getAccessToken, removeAccessToken, removeRefreshToken, removeBusinessOwner} from '../tokenManagement/tokenManager'; // Import tokenManager functions
 
 const Logout = () => {
   const navigate = useNavigate(); // Initialize navigate hook for redirection
@@ -14,8 +14,7 @@ const Logout = () => {
       // Use tokenManager to remove access token and refresh token
       removeAccessToken();
       removeRefreshToken();
-	  //remove the business_owner attribute from local storage
-	  localStorage.removeItem("business_owner");
+	  removeBusinessOwner();
 
       // Optionally, show an alert or message
       alert('Logged out successfully');

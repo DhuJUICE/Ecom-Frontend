@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/sign-in.css';
 import { signIn } from '../apiComponents/api-signIn';
 import { preloadMenuData } from '../preLoadMenuData/preloadMenu'; // 🔁 Reuse preload logic
+import { removeAccessToken, removeRefreshToken, removeBusinessOwner} from '../tokenManagement/tokenManager'; // Import tokenManager functions
 
 const Sign_In = () => {
   const navigate = useNavigate();
@@ -13,9 +14,15 @@ const Sign_In = () => {
   const validateForm = async (event) => {
     event.preventDefault();
 
+	//clear previoysly stored tokens and business_owner
+	removeAccessToken();
+	removeRefreshToken();
+	removeBusinessOwner();
+
     const userName = document.getElementById('email').value;
     const userPassword = document.getElementById('password').value;
 
+	
     const result = await signIn(userName, userPassword);
 
     if (result.success) {
