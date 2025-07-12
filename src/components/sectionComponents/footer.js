@@ -1,10 +1,11 @@
-// Footer.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../../App.css'; // Import the CSS file
-import UploadButton from '../buttonComponents/upload-button'; // Import the new component
+import '../../App.css';
+import UploadButton from '../buttonComponents/upload-button';
 
 const Footer = () => {
+  const isBusinessOwner = localStorage.getItem('business_owner') === 'true';
+
   return (
     <div>
       <div className="container">
@@ -14,7 +15,9 @@ const Footer = () => {
         <div className="section">
           <Link to="/about">About Us</Link>
         </div>
-          <UploadButton /> {/* Use the UploadButton component */}
+        
+        {/* Conditionally render the UploadButton */}
+        {isBusinessOwner && <UploadButton />}
       </div>
 
       <div className="copyrights">

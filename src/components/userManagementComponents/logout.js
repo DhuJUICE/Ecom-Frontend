@@ -14,6 +14,8 @@ const Logout = () => {
       // Use tokenManager to remove access token and refresh token
       removeAccessToken();
       removeRefreshToken();
+	  //remove the business_owner attribute from local storage
+	  localStorage.removeItem("business_owner");
 
       // Optionally, show an alert or message
       alert('Logged out successfully');

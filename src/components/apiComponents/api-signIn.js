@@ -16,6 +16,8 @@ export const signIn = async (userName, userPassword) => {
       // Use token manager to store tokens
       setAccessToken(data.access); // Save access token with expiry time
       setRefreshToken(data.refresh); // Save refresh token without expiry time (optional)
+	  //store the is_staff attribute in the frontend local storage
+	  localStorage.setItem("business_owner", data.is_staff);
       return { success: true };
     } else {
       return { success: false, message: 'Login failed. Please check your credentials.' };
