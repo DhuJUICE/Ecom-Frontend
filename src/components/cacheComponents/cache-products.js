@@ -1,6 +1,6 @@
 //get and cache menu products
 const CACHE_KEY = 'cachedProducts';
-const cacheMinutes = 5;
+const cacheMinutes = 1;
 const CACHE_TIME = cacheMinutes * 60 * 1000; // 1 minute caching
 
 export const getCachedProducts = () => {
@@ -24,7 +24,7 @@ export const cacheProducts = (products) => {
 //#################################################
 //get and cache moderation products
 const MODERATION_CACHE_KEY = 'cachedModerationData';
-const MODERATION_CACHE_MINUTES = 5;
+const MODERATION_CACHE_MINUTES = 1;
 const MODERATION_CACHE_TIME = MODERATION_CACHE_MINUTES * 60 * 1000; // 5 minutes caching
 
 export const getCachedModerationProducts = () => {
@@ -48,7 +48,7 @@ export const cacheModerationProducts = (products) => {
 //#################################################
 //get and cache moderation products
 const OWNER_CACHE_KEY = 'cachedOwnerData';
-const OWNER_CACHE_MINUTES = 10;
+const OWNER_CACHE_MINUTES = 1;
 const OWNER_CACHE_TIME = OWNER_CACHE_MINUTES * 60 * 1000; // 10 minutes caching
 
 export const getCachedOwnerProducts = () => {

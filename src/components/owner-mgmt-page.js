@@ -37,7 +37,7 @@ const Menu = () => {
       <main>
         {loading ? (
           <div className="loading-container">
-            <p>Loading menu...</p>
+            <p>Loading Your Business Products Previously Uploaded...</p>
           </div>
         ) : products.length === 0 ? (
           <div className="loading-container">

@@ -1,4 +1,4 @@
-export const setAccessToken = (token, expiresInMilliseconds = 30 * 60 * 1000) => {
+export const setAccessToken = (token, expiresInMilliseconds = 60 * 60 * 1000) => {
     const expiryTime = Date.now() + expiresInMilliseconds;
     localStorage.setItem("accessToken", token);
     localStorage.setItem("accessTokenExpiry", expiryTime.toString());

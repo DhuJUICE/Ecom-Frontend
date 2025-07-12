@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import imagekit from './imagekit';  // adjust path if needed
 import '../styles/upload-products.css';
 import { uploadImageToImageKit } from './apiComponents/api-image-upload';
+import { API_URL } from "./apiComponents/api-base-url";
 
 const UploadProducts = () => {
   const [productData, setProductData] = useState({
@@ -9,72 +9,79 @@ const UploadProducts = () => {
     prodPrice: '',
     prodDesc: '',
     prodAvailQuant: '',
-    prodOnMenu: false,
     prodImagePath: ''
   });
 
   const [imageFile, setImageFile] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setProductData((prevData) => ({
       ...prevData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (parseFloat(productData.prodPrice) < 20) {
       alert('Product price must be at least R20.');
       return;
     }
-  
+
     if (!imageFile) {
       alert('Please select an image to upload.');
       return;
     }
-  
+
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      alert("You must be logged in to upload a product.");
+      return;
+    }
+
     try {
       const imageUrl = await uploadImageToImageKit(imageFile);
-  
+
       const fullProductData = {
         ...productData,
         prodImagePath: imageUrl
       };
-  
-      const response = await fetch('https://yummytummies-backend2.onrender.com/api/product', {
+
+      const response = await fetch(`${API_URL}/api/product/upload`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(fullProductData),
       });
-  
+
       if (response.ok) {
         const result = await response.json();
         console.log('Product successfully uploaded:', result);
         alert('Product uploaded successfully.');
       } else {
-        throw new Error('Failed to upload product');
+        const errorData = await response.json();
+        console.error('Backend Error:', errorData);
+        alert('Failed to upload product. ' + (errorData.message || ''));
+        return;
       }
-  
+
       setProductData({
         prodName: '',
         prodPrice: '',
         prodDesc: '',
         prodAvailQuant: '',
-        prodOnMenu: false,
         prodImagePath: ''
       });
-  
       setImageFile(null);
       document.getElementById('prodImageInput').value = '';
-  
+
     } catch (error) {
-      console.error('Image upload failed:', error);
-      alert('Failed to upload image.');
+      console.error('Upload failed:', error);
+      alert('Something went wrong while uploading the product.');
     }
   };
 

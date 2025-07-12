@@ -17,32 +17,64 @@ export const fetchProducts = async () => {
 
 //fetch the products to be moderated
 export const fetchModerationProducts = async () => {
-	try {
-	  const response = await fetch(`${API_URL}/api/product/moderation`, {
-		headers: { 'Content-Type': 'application/json' }
-	  });
-  
-	  if (!response.ok) throw new Error('Failed to fetch moderation products');
-	  
-	  return await response.json();
-	} catch (error) {
-	  console.error('Error fetching moderation products:', error);
-	  return null; // Handle errors gracefully
-	}
-  };
+  try {
+    const token = localStorage.getItem("accessToken");
 
-//fetch the products to be managed by a business owner
-export const fetchOwnerProducts = async () => {
+    if (!token) {
+      alert("You must be logged in to access moderation products.");
+      return null;
+    }
+
+    const response = await fetch(`${API_URL}/api/product/moderation`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,  // Add auth token here
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Backend error:", errorData);
+      throw new Error('Failed to fetch moderation products');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching moderation products:', error);
+    return null;
+  }
+};
+
+  
+  // Fetch products for the authenticated business owner
+  export const fetchOwnerProducts = async () => {
 	try {
+	  const token = localStorage.getItem("accessToken");
+  
+	  if (!token) {
+		alert("You must be logged in to manage your products.");
+		return null;
+	  }
+  
 	  const response = await fetch(`${API_URL}/api/product/owner-mgmt`, {
-		headers: { 'Content-Type': 'application/json' }
+		method: 'GET',
+		headers: {
+		  'Content-Type': 'application/json',
+		  'Authorization': `Bearer ${token}`, // 🔐 include the token
+		},
 	  });
   
-	  if (!response.ok) throw new Error('Failed to fetch business owner management products');
-	  
+	  if (!response.ok) {
+		const errorData = await response.json();
+		console.error("Backend error:", errorData);
+		throw new Error('Failed to fetch business owner products');
+	  }
+  
 	  return await response.json();
 	} catch (error) {
-	  console.error('Error fetching business owner management products:', error);
-	  return null; // Handle errors gracefully
+	  console.error('Error fetching business owner products:', error);
+	  return null;
 	}
   };
+  
