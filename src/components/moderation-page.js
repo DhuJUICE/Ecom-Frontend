@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/moderate.css';
 import { preloadModerationProductData } from './preLoadMenuData/preloadModerationProducts';
+import { updateModerationStatus } from './apiComponents/api-products';
 
 const Menu = () => {
   const [products, setProducts] = useState([]);
@@ -16,16 +17,17 @@ const Menu = () => {
     loadData();
   }, []);
 
-  const handleApprove = async (productId) => {
-    // TODO: Add your approve API call here
-    alert(`Approve product ID: ${productId}`);
-    // Optionally remove or update the product in the UI after approval
-  };
+  const handleModeration = async (productId, status) => {
+    const updatedProduct = await updateModerationStatus(productId, status);
 
-  const handleReject = async (productId) => {
-    // TODO: Add your reject API call here
-    alert(`Reject product ID: ${productId}`);
-    // Optionally remove or update the product in the UI after rejection
+    if (updatedProduct) {
+      // Remove the product from the list after updating
+      setProducts(prevProducts =>
+        prevProducts.filter(product => product.id !== productId)
+      );
+    } else {
+      alert(`Failed to update product moderation status to ${status}`);
+    }
   };
 
   return (
@@ -51,13 +53,13 @@ const Menu = () => {
                   <div className="action-buttons">
                     <button
                       className="approve-btn"
-                      onClick={() => handleApprove(product.id)}
+                      onClick={() => handleModeration(product.id, 'approved')}
                     >
                       Approve
                     </button>
                     <button
                       className="reject-btn"
-                      onClick={() => handleReject(product.id)}
+                      onClick={() => handleModeration(product.id, 'rejected')}
                     >
                       Reject
                     </button>
