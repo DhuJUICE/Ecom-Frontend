@@ -4,6 +4,7 @@ import '../../App.css';
 import UploadButton from '../buttonComponents/upload-button';
 import OwnerMgmtButton from '../buttonComponents/owner-mgmt-button';
 import ModerateButton from '../buttonComponents/moderation-button';
+import BusinessOwnerButton from '../buttonComponents/business-owner-button';
 
 const Footer = () => {
   const isBusinessOwner = localStorage.getItem('business_owner') === 'true';
@@ -22,6 +23,8 @@ const Footer = () => {
         {isBusinessOwner && <ModerateButton />}
         {isBusinessOwner && <OwnerMgmtButton />}
         {isBusinessOwner && <UploadButton />}
+        {isBusinessOwner && <BusinessOwnerButton />}
+
       </div>
 
       <div className="copyrights">
