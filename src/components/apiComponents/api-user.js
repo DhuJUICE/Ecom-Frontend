@@ -93,3 +93,41 @@ export const updateBusinessOwnerDetails = async (userId, updateData) => {
 	  return null;
 	}
   };
+
+//###########################################
+//USER ROLES
+//fetch the business owners
+export const fetchUserRole = async (userId) => {
+	try {
+	  const token = localStorage.getItem("accessToken");
+  
+	  if (!token) {
+		alert("You must be logged in to access user role.");
+		return null;
+	  }
+  
+	  const response = await fetch(`${API_URL}/api/user/role/${userId}`, {
+		method: 'GET',
+		headers: {
+		  'Content-Type': 'application/json',
+		  'Authorization': `Bearer ${token}`,
+		},
+	  });
+  
+	  if (!response.ok) {
+		const errorData = await response.json();
+		console.error("Backend error:", errorData);
+		throw new Error('Failed to fetch user role');
+	  }
+  
+	  const data = await response.json();
+  
+	  // Return just the user role string, or null if missing
+	  return data?.userprofile?.role || null;
+  
+	} catch (error) {
+	  console.error('Error fetching user role:', error);
+	  return null;
+	}
+  };
+  

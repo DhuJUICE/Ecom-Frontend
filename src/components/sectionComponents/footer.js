@@ -7,7 +7,7 @@ import ModerateButton from '../buttonComponents/moderation-button';
 import BusinessOwnerButton from '../buttonComponents/business-owner-button';
 
 const Footer = () => {
-  const isBusinessOwner = localStorage.getItem('business_owner') === 'true';
+  const role = localStorage.getItem("role");
 
   return (
     <div>
@@ -18,13 +18,23 @@ const Footer = () => {
         <div className="section">
           <Link to="/about">About Us</Link>
         </div>
-        
-        {/* Conditionally render the UploadButton */}
-        {isBusinessOwner && <ModerateButton />}
-        {isBusinessOwner && <OwnerMgmtButton />}
-        {isBusinessOwner && <UploadButton />}
-        {isBusinessOwner && <BusinessOwnerButton />}
 
+        {/* Role-specific buttons */}
+        {role === "moderatorUser" && <ModerateButton />}
+        {role === "businessOwner" && (
+          <>
+            <OwnerMgmtButton />
+            <UploadButton />
+          </>
+        )}
+		{role === "adminUser" && (
+          <>
+		  	<ModerateButton />
+            <OwnerMgmtButton />
+            <UploadButton />
+			<BusinessOwnerButton />
+          </>
+        )}
       </div>
 
       <div className="copyrights">

@@ -4,6 +4,7 @@ import '../../styles/sign-in.css';
 import { signIn } from '../apiComponents/api-signIn';
 import { preloadMenuProductData } from '../preLoadMenuData/preloadMenuProducts'; // 🔁 Reuse preload logic
 import { removeAccessToken, removeRefreshToken, removeBusinessOwner} from '../tokenManagement/tokenManager'; // Import tokenManager functions
+import { fetchUserRole } from '../apiComponents/api-user';
 
 const Sign_In = () => {
   const navigate = useNavigate();
