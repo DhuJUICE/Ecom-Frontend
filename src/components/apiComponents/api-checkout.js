@@ -24,47 +24,29 @@ export const logTransaction = async (paymentMethod) => {
     }
   };
   
-  export const processPayment = async (stripe, cardElement, totalPrice, paymentMethod, deliveryMethod) => {
-    if (!stripe || !cardElement) {
-      console.error("Stripe has not loaded yet.");
-      return;
-    }
+  export const processPayment = async (totalPrice, reference) => {
+	try {
+	  const response = await fetch(`${API_URL}/api/checkout`, {
+		method: "POST",
+		headers: {
+		  "Content-Type": "application/json",
+		  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+		},
+		body: JSON.stringify({
+		  totalPurchaseTotal: totalPrice,
+		  reference: reference
+		}),
+	  });
   
-    let stripeToken = null;
-    if (paymentMethod === "card") {
-      const { token, error } = await stripe.createToken(cardElement);
-      if (error) {
-        document.getElementById("card-errors").textContent = error.message;
-        return;
-      }
-      stripeToken = token.id;
-    }
-  
-    // Prepare form data for the backend
-    const formData = new FormData();
-    if (stripeToken) formData.append("stripeToken", stripeToken);
-    formData.append("totalPurchaseTotal", totalPrice);
-    formData.append("paymentMethod", paymentMethod);
-    formData.append("deliveryMethod", deliveryMethod);
-  
-    try {
-      const response = await fetch(`${API_URL}/api/checkout`, {
-        method: "POST",
-        body: formData,
-      });
-  
-      const data = await response.json();
-      if (response.ok) {
-        alert("Payment successful");
-        console.log("Payment successful:", data);
-  
-        // Log the transaction after payment
-        await logTransaction(paymentMethod);
-      } else {
-        console.error("Payment failed:", data);
-      }
-    } catch (error) {
-      console.error("Error during payment processing:", error);
-    }
+	  const data = await response.json();
+	  if (response.ok) {
+		alert("Payment successful");
+		console.log("Payment verified:", data);
+	  } else {
+		alert("Payment verification failed");
+		console.error("Verification error:", data);
+	  }
+	} catch (error) {
+	  console.error("Error verifying payment:", error);
+	}
   };
-  

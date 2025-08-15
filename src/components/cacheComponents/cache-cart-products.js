@@ -2,7 +2,7 @@
 
 // Get and cache cart products
 const CART_CACHE_KEY = 'cachedCartProducts';
-const CART_CACHE_MINUTES = 1;
+const CART_CACHE_MINUTES = 0.2;
 const CART_CACHE_TIME = CART_CACHE_MINUTES * 60 * 1000; // 1 minute caching
 
 export const getCachedCartProducts = () => {
