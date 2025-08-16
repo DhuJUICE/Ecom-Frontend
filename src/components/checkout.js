@@ -61,9 +61,6 @@ const Checkout = () => {
                 console.error(err);
               });
           },
-          onClose: function() {
-            alert("Payment popup closed by user");
-          }
         });
 
         //alert("Opening Paystack popup...");

@@ -1,0 +1,18 @@
+/* Footer basic styling */
+.footer {
+    background-color: #611903;
+    color: white;
+	vertical-align: middle;
+}
+
+.copyrights {
+    align-items: center;
+    justify-content: center;
+    cursor: default;      
+}
+
+.copyrights p {
+    color: #ffffff;
+    font-weight: 50;
+    text-align: center;
+}
