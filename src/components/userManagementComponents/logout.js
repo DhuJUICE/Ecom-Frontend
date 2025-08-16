@@ -16,9 +16,6 @@ const Logout = () => {
       removeRefreshToken();
 	  removeBusinessOwner();
 
-      // Optionally, show an alert or message
-      alert('Logged out successfully');
-
       // Redirect to home page (or sign-in page) after logging out
       navigate('/');
     }

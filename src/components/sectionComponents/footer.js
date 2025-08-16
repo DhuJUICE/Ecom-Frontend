@@ -1,45 +1,13 @@
+// Footer.js
 import React from 'react';
-import { Link } from 'react-router-dom';
 import '../../App.css';
-import UploadButton from '../buttonComponents/upload-button';
-import OwnerMgmtButton from '../buttonComponents/owner-mgmt-button';
-import ModerateButton from '../buttonComponents/moderation-button';
-import BusinessOwnerButton from '../buttonComponents/business-owner-button';
 
 const Footer = () => {
-  const role = localStorage.getItem("role");
-
   return (
-    <div>
-      <div className="container">
-        <div className="section">
-          <Link to="/contact">Contact Us</Link>
-        </div>
-        <div className="section">
-          <Link to="/about">About Us</Link>
-        </div>
-
-        {/* Role-specific buttons */}
-        {role === "moderatorUser" && <ModerateButton />}
-        {role === "businessOwner" && (
-          <>
-            <OwnerMgmtButton />
-            <UploadButton />
-          </>
-        )}
-		{role === "adminUser" && (
-          <>
-		  	<ModerateButton />
-            <OwnerMgmtButton />
-            <UploadButton />
-			<BusinessOwnerButton />
-          </>
-        )}
-      </div>
-
+    <div className="footer">
       <div className="copyrights">
         <p>
-          &copy; {new Date().getFullYear()} Tummy Yummy's. All Rights Reserved. | Developed by JugamSoft Technologies
+          &copy; {new Date().getFullYear()} Tummy Yummy's. All Rights Reserved. | Developed by JUGAMSOFT
         </p>
       </div>
     </div>

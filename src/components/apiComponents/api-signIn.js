@@ -22,7 +22,6 @@ export const signIn = async (userName, userPassword) => {
 	  //fetch the user role
 	  const role = await fetchUserRole(data.user_id);
 	  if (role) {
-		alert(`User role is: ${role}`);
 		localStorage.setItem("role", role);
 	  } else {
 		alert("Could not retrieve user role");

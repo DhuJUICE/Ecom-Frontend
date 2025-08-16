@@ -29,10 +29,6 @@ const Sign_In = () => {
     if (result.success) {
       // ⏳ Preload products before navigating
       await preloadMenuProductData();
-	  
-      alert('Sign-in successful! Welcome back.');
-
-
 
       // ✅ Go to the menu page
       navigate('/menu');

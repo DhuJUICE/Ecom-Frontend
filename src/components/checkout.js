@@ -15,11 +15,11 @@ const Checkout = () => {
 
   // Dynamically load Paystack script
   useEffect(() => {
-    alert("Loading Paystack script...");
+    //alert("Loading Paystack script...");
     const script = document.createElement("script");
     script.src = "https://js.paystack.co/v1/inline.js";
     script.onload = () => {
-      alert("Paystack script loaded!");
+      //alert("Paystack script loaded!");
       setPaystackLoaded(true);
     };
     document.body.appendChild(script);
@@ -29,7 +29,6 @@ const Checkout = () => {
 
   const handleCheckout = (event) => {
     event.preventDefault();
-    alert("Checkout button clicked!");
 
     if (paymentMethod === "cash") {
       alert("Order placed! Thank you for your order.");
@@ -38,14 +37,11 @@ const Checkout = () => {
     }
 
     if (paymentMethod === "card") {
-      alert("Initializing Paystack...");
-
       if (!paystackLoaded || !window.PaystackPop) {
         alert("Payment system not loaded yet. Try again in a moment.");
         return;
       }
 
-      alert("Creating Paystack handler...");
       try {
         const handler = window.PaystackPop.setup({
           key: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY || "pk_test_1a8d4d898af9fb129b0f4b24d38a55cdf2fdecc4",
@@ -54,7 +50,7 @@ const Checkout = () => {
           currency: "ZAR",
           ref: `PSK_${Date.now()}`,
           callback: function(response) {
-            alert("Payment callback triggered! Reference: " + response.reference);
+            //alert("Payment callback triggered! Reference: " + response.reference);
             processPayment(totalPrice, response.reference)
               .then(() => {
                 alert("Payment processed successfully on server.");
@@ -70,7 +66,7 @@ const Checkout = () => {
           }
         });
 
-        alert("Opening Paystack popup...");
+        //alert("Opening Paystack popup...");
         handler.openIframe();
       } catch (err) {
         alert("Error creating handler: " + err.message);

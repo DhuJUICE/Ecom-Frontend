@@ -1,11 +1,12 @@
 import { API_URL } from "./api-base-url";
-import { getAccessToken } from "../tokenManagement/tokenManager"; //import tokenManager to manage the accessToken
+import { getAccessToken } from "../tokenManagement/tokenManager";
 
+// Fetch all cart items with product details
 export const fetchCartItems = async () => {
   try {
     const token = getAccessToken();
-	if (!token) return { success: false, message: "User not authenticated" };
-	
+    if (!token) return [];
+
     const response = await fetch(`${API_URL}/api/cart`, {
       method: "GET",
       headers: {
@@ -14,43 +15,39 @@ export const fetchCartItems = async () => {
       },
     });
 
-    const result = await response.json();
-
-    if (!result.success || result.message) {
-      alert(result.message || "Failed to fetch cart. Please try again later.");
-      return;
+    if (!response.ok) {
+      if (response.status === 401) {
+        console.warn("Unauthorized: User needs to log in.");
+      } else {
+        console.warn("Failed to fetch cart.");
+      }
+      return [];
     }
+
+    const result = await response.json();
+    if (!result.success || !result.cart) return [];
 
     const cartItems = result.cart;
 
-    const productDetails = await Promise.all(
-      Object.keys(cartItems).map(async (productId) => {
-        try {
-          const productResponse = await fetch(`${API_URL}/api/product/${productId}`);
-          const product = await productResponse.json();
-          return {
-            id: product.id,
-            name: product.prodName,
-            prodPrice: product.prodPrice || 0,
-            image: product.prodImagePath || "default-image.jpg",
-            quantity: cartItems[productId] || 1,
-          };
-        } catch (error) {
-          alert(`Error fetching cart product ${productId}:`, error);
-          return null;
-        }
-      })
-    );
+    // Now each cart item already has full product details from backend
+    const productDetails = Object.values(cartItems).map(item => ({
+      id: item.id,
+      name: item.prodName,
+      prodPrice: item.prodPrice || 0,
+      image: item.prodImagePath || "default-image.jpg",
+      quantity: item.quantity || 1,
+    }));
 
-    const filteredProducts = productDetails.filter((item) => item !== null);
-	return filteredProducts;
+    return productDetails;
+
   } catch (error) {
-    alert("Error fetching cart:", error);
+    console.error("Error fetching cart:", error);
+    return [];
   }
 };
 
 // Adding to cart
-export const addToCart = async (productId, quantity) => {
+export const addToCart = async (product, quantity) => {
   try {
     const token = getAccessToken();
     if (!token) return { success: false, message: "User not authenticated" };
@@ -61,7 +58,13 @@ export const addToCart = async (productId, quantity) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ productId, quantity }),
+      body: JSON.stringify({
+        productId: product.id,
+        quantity,
+        prodName: product.prodName,
+        prodPrice: product.prodPrice,
+        prodImagePath: product.prodImagePath,
+      }),
     });
 
     if (!response.ok) throw new Error("Failed to add item to cart");

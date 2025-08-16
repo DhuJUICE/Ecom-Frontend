@@ -5,7 +5,6 @@ import ScrollToTop from "./components/scrollToTop";
 
 // Importing your components
 import Home from "./components/home";
-import About from "./components/about";
 import Cart from "./components/cart";
 import Checkout from "./components/checkout";
 import Contact from "./components/contact";
@@ -32,8 +31,7 @@ function App() {
 
           <div className="body">
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/" element={<Menu />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/contact" element={<Contact />} />

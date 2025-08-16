@@ -40,13 +40,11 @@ export const logTransaction = async (paymentMethod) => {
   
 	  const data = await response.json();
 	  if (response.ok) {
-		alert("Payment successful");
-		console.log("Payment verified:", data);
+		alert("Payment successful", data);
 	  } else {
-		alert("Payment verification failed");
-		console.error("Verification error:", data);
+		alert("Payment verification failed", data);
 	  }
 	} catch (error) {
-	  console.error("Error verifying payment:", error);
+		alert("Error verifying payment:", error);
 	}
   };
