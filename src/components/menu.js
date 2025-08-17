@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import '../styles/menu.css';
 import { addToCart } from './apiComponents/api-cart';
 import { preloadMenuProductData } from './preLoadMenuData/preloadMenuProducts';
+import { useNavigate } from 'react-router-dom';
 
 const Menu = () => {
   const [products, setProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const loadData = async () => {
       const data = await preloadMenuProductData();
@@ -20,7 +22,7 @@ const Menu = () => {
   const handleAddToCart = async (product) => {
     const accessToken = !!localStorage.getItem("accessToken");
     if (!accessToken) {
-      alert("You must be logged in to add to cart");
+	  navigate("/sign-in");
       return;
     }
 
