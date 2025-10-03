@@ -9,38 +9,43 @@ const Cart = () => {
   const { cart, setCart } = useCart();
   const [loadingItems, setLoadingItems] = useState(false);
 
-  const incrementCartItem = async (productId) => {
+  // Pass full product object to API calls
+  const incrementCartItem = async (item) => {
     setLoadingItems(true);
-    const result = await incrementCartItemAPI(productId);
+    const result = await incrementCartItemAPI(item);
     if (!result.success) return alert(result.message);
 
-    const updatedCart = cart.map(item =>
-      item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+    const updatedCart = cart.map(c =>
+      c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c
     );
     setCart(updatedCart);
     setLoadingItems(false);
   };
 
-  const decrementCartItem = async (productId) => {
-    setLoadingItems(true);
-    const result = await decrementCartItemAPI(productId);
-    if (!result.success) return alert(result.message);
-
-    const updatedCart = cart.map(item =>
-      item.id === productId && item.quantity > 1
-        ? { ...item, quantity: item.quantity - 1 }
-        : item
-    );
-    setCart(updatedCart);
-    setLoadingItems(false);
+  const decrementCartItem = async (item) => {
+	// Skip if quantity is already 1
+	if (item.quantity <= 1) return;
+  
+	setLoadingItems(true);
+	const result = await decrementCartItemAPI(item);
+	if (!result.success) {
+	  setLoadingItems(false);
+	  return alert(result.message);
+	}
+  
+	const updatedCart = cart.map(c =>
+	  c.id === item.id ? { ...c, quantity: c.quantity - 1 } : c
+	);
+	setCart(updatedCart);
+	setLoadingItems(false);
   };
 
-  const removeItemFromCart = async (productId) => {
+  const removeItemFromCart = async (item) => {
     setLoadingItems(true);
-    const result = await removeItemFromCartAPI(productId);
+    const result = await removeItemFromCartAPI(item);
     if (!result.success) return alert(result.message);
 
-    const updatedCart = cart.filter(item => item.id !== productId);
+    const updatedCart = cart.filter(c => c.id !== item.id);
     setCart(updatedCart);
     setLoadingItems(false);
   };
@@ -71,13 +76,13 @@ const Cart = () => {
                   <p className="text-gray-800 font-medium mt-1">Total: R {(item.prodPrice * item.quantity).toFixed(2)}</p>
                 </div>
                 <div className="flex flex-col items-center space-y-2 mt-4 sm:mt-0">
-                  <button onClick={() => incrementCartItem(item.id)} className="flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-lg w-10 h-10">
+                  <button onClick={() => incrementCartItem(item)} className="flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-lg w-10 h-10">
                     <FaPlus />
                   </button>
-                  <button onClick={() => decrementCartItem(item.id)} className="flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg w-10 h-10">
+                  <button onClick={() => decrementCartItem(item)} className="flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg w-10 h-10">
                     <FaMinus />
                   </button>
-                  <button onClick={() => removeItemFromCart(item.id)} className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white rounded-lg w-10 h-10">
+                  <button onClick={() => removeItemFromCart(item)} className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white rounded-lg w-10 h-10">
                     <FaTrash />
                   </button>
                 </div>

@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { addToCart } from '../../apiComponents/api-cart';
-import { fetchProducts } from '../../apiComponents/api-products'; // <-- use your fetch
+import { fetchProducts } from '../../apiComponents/api-products';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../CartPage/cart-context'; // <-- use your CartContext
 
 const MenuPage = () => {
   const [products, setProducts] = useState([]);
-  const [quantities, setQuantities] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  
+  const { cart, setCart } = useCart(); // access CartContext
+
+  // Load products
   useEffect(() => {
     const loadData = async () => {
-      const data = await fetchProducts();
-      setProducts(data || []);
-      setLoading(false);
+      try {
+        const data = await fetchProducts();
+        setProducts(data || []);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+      } finally {
+        setLoading(false);
+      }
     };
     loadData();
   }, []);
@@ -25,14 +32,45 @@ const MenuPage = () => {
       return;
     }
 
-    const quantity = quantities[product.id] || 1;
+    const quantity = 1;
+
+    // Call API to add item to cart
     const result = await addToCart(product, quantity);
     if (!result.success) {
       alert(result.message || "Failed to add item.");
       return;
     }
 
-    window.dispatchEvent(new CustomEvent("cartUpdated"));
+    // Map backend cart object to frontend cart array
+    if (result.cart && typeof result.cart === "object") {
+      const mappedCart = Object.values(result.cart).map(item => ({
+        id: item.id,
+        name: item.prodName,
+        prodPrice: item.prodPrice || 0,
+        image: item.prodImagePath || "default-image.jpg",
+        quantity: item.quantity || 1,
+      }));
+      setCart(mappedCart);
+    } else {
+      // Fallback if result.cart is missing
+      const existingItem = cart.find(item => item.id === product.id);
+      if (existingItem) {
+        const updatedCart = cart.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+        setCart(updatedCart);
+      } else {
+        setCart([...cart, {
+          id: product.id,
+          name: product.prodName,
+          prodPrice: product.prodPrice,
+          image: product.prodImagePath || "default-image.jpg",
+          quantity
+        }]);
+      }
+    }
   };
 
   return (

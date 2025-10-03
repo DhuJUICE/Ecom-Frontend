@@ -1,3 +1,4 @@
+// api-cart.js
 import { API_URL } from "./api-base-url";
 import { getAccessToken } from "../userManagementComponents/tokenManagement/tokenManager";
 
@@ -29,8 +30,7 @@ export const fetchCartItems = async () => {
 
     const cartItems = result.cart;
 
-    // Now each cart item already has full product details from backend
-    const productDetails = Object.values(cartItems).map(item => ({
+    return Object.values(cartItems).map(item => ({
       id: item.id,
       name: item.prodName,
       prodPrice: item.prodPrice || 0,
@@ -38,109 +38,61 @@ export const fetchCartItems = async () => {
       quantity: item.quantity || 1,
     }));
 
-    return productDetails;
-
   } catch (error) {
     console.error("Error fetching cart:", error);
     return [];
   }
 };
 
-// Adding to cart
-export const addToCart = async (product, quantity) => {
+// Unified function to update the cart (add, remove, increment, decrement)
+export const updateCartAPI = async ({ action, product, quantity }) => {
   try {
     const token = getAccessToken();
     if (!token) return { success: false, message: "User not authenticated" };
 
-    const response = await fetch(`${API_URL}/api/cart/add`, {
-      method: "POST",
+    // Build the payload according to backend expectations
+    const body = { action, productId: product.id };
+
+    if (action === "add") {
+      body.quantity = quantity || 1;
+      body.prodName = product.prodName;
+      body.prodPrice = product.prodPrice;
+      body.prodImagePath = product.prodImagePath;
+    }
+
+    const response = await fetch(`${API_URL}/api/cart`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        productId: product.id,
-        quantity,
-        prodName: product.prodName,
-        prodPrice: product.prodPrice,
-        prodImagePath: product.prodImagePath,
-      }),
-    });
-
-    if (!response.ok) throw new Error("Failed to add item to cart");
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error adding to cart:", error);
-    return { success: false, message: "Error adding to cart" };
-  }
-};
-
-// Increment item quantity
-export const incrementCartItemAPI = async (productId) => {
-  try {
-    const token = getAccessToken();
-    if (!token) return { success: false, message: "User not authenticated" };
-
-    const response = await fetch(`${API_URL}/api/cart/increment`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify({ productId }),
+      body: JSON.stringify(body),
     });
 
     const result = await response.json();
-    return response.ok ? result : { success: false, message: result.message || "Increment failed" };
+    return response.ok
+      ? result
+      : { success: false, message: result.message || "Cart update failed" };
+
   } catch (error) {
-    console.error("Increment error:", error);
-    return { success: false, message: "An error occurred while incrementing item" };
+    console.error("Cart update error:", error);
+    return { success: false, message: "An error occurred while updating cart" };
   }
 };
 
-// Decrement item quantity
-export const decrementCartItemAPI = async (productId) => {
-  try {
-    const token = getAccessToken();
-    if (!token) return { success: false, message: "User not authenticated" };
-
-    const response = await fetch(`${API_URL}/api/cart/decrement`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify({ productId }),
-    });
-
-    const result = await response.json();
-    return response.ok ? result : { success: false, message: result.message || "Decrement failed" };
-  } catch (error) {
-    console.error("Decrement error:", error);
-    return { success: false, message: "An error occurred while decrementing item" };
-  }
+// Usage helpers
+export const addToCart = async (product, quantity) => {
+  return updateCartAPI({ action: "add", product, quantity });
 };
 
-// Remove item from cart
-export const removeItemFromCartAPI = async (productId) => {
-  try {
-    const token = getAccessToken();
-    if (!token) return { success: false, message: "User not authenticated" };
+export const incrementCartItemAPI = async (product) => {
+  return updateCartAPI({ action: "increment", product });
+};
 
-    const response = await fetch(`${API_URL}/api/cart/remove`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify({ productId }),
-    });
+export const decrementCartItemAPI = async (product) => {
+  return updateCartAPI({ action: "decrement", product });
+};
 
-    const result = await response.json();
-    return response.ok ? result : { success: false, message: result.message || "Remove failed" };
-  } catch (error) {
-    console.error("Remove error:", error);
-    return { success: false, message: "An error occurred while removing item" };
-  }
+export const removeItemFromCartAPI = async (product) => {
+  return updateCartAPI({ action: "remove", product });
 };
