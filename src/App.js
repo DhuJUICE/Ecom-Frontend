@@ -1,23 +1,22 @@
 import React from "react";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
-import { CartProvider } from "./cart-context";
-import ScrollToTop from "./components/scrollToTop";
+import { CartProvider } from "./components/pageComponents/CartPage/cart-context";
+import ScrollToTop from "./components/scrollComponents/scrollToTop";
 
 // Importing your components
-import Home from "./components/home";
-import Cart from "./components/cart";
-import Checkout from "./components/checkout";
-import Contact from "./components/contact";
-import Menu from "./components/menu";
+import Cart from "./components/pageComponents/CartPage/cart";
+import Checkout from "./components/pageComponents/CheckoutPage/checkout";
+import Contact from "./components/pageComponents/ContactPage/contact";
+import Menu from "./components/pageComponents/MenuPage/menu";
 import Sign_In from "./components/userManagementComponents/sign-in";
 import Sign_Up from "./components/userManagementComponents/sign-up";
-import UploadProduct from "./components/upload-products";
-import "./App.css";
+import UploadProduct from "./components/pageComponents/UploadPage/upload-products";
+
 import Header from './components/sectionComponents/header';
 import Footer from './components/sectionComponents/footer';
-import ModerateProduct from './components/moderation-page';
-import OwnerManageProducts from './components/owner-mgmt-page';
-import BusinessOwnerUsers from './components/business-owner-page';
+import ModerateProduct from './components/pageComponents/ModeratePage/moderation-page';
+import OwnerManageProducts from './components/pageComponents/OwnerManagementPage/owner-mgmt-page';
+import BusinessOwnerUsers from './components/pageComponents/BusinessOwnerPage/business-owner-page';
 
 function App() {
   return (

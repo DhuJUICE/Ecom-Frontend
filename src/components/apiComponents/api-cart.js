@@ -1,5 +1,5 @@
 import { API_URL } from "./api-base-url";
-import { getAccessToken } from "../tokenManagement/tokenManager";
+import { getAccessToken } from "../userManagementComponents/tokenManagement/tokenManager";
 
 // Fetch all cart items with product details
 export const fetchCartItems = async () => {

@@ -1,5 +1,5 @@
 // api-image-upload.js
-import imagekit from '../imagekit'; // Adjust path if needed
+import imagekit from '../imageUploadComponents/imagekit'; // Adjust path if needed
 
 export const uploadImageToImageKit = async (imageFile) => {
   if (!imageFile) {

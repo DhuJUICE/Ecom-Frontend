@@ -1,5 +1,5 @@
 import { API_URL } from "./api-base-url"; // Import the API base URL
-import { setAccessToken, setRefreshToken, setBusinessOwner} from '../tokenManagement/tokenManager'; // Import token manager functions
+import { setAccessToken, setRefreshToken, setBusinessOwner} from '../userManagementComponents/tokenManagement/tokenManager'; // Import token manager functions
 import { fetchUserRole } from './api-user';
 
 // Function to handle the sign-in API call

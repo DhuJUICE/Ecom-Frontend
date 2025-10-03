@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../../styles/sign-in.css';
 import { signIn } from '../apiComponents/api-signIn';
 import { preloadMenuProductData } from '../preLoadMenuData/preloadMenuProducts';
-import { removeAccessToken, removeRefreshToken, removeBusinessOwner } from '../tokenManagement/tokenManager';
-import { FaEye } from 'react-icons/fa'; // eye icon
+import { removeAccessToken, removeRefreshToken, removeBusinessOwner } from './tokenManagement/tokenManager';
+import { FaEye } from 'react-icons/fa';
 
 const Sign_In = () => {
     const navigate = useNavigate();
@@ -33,23 +32,27 @@ const Sign_In = () => {
     };
 
     return (
-        <div className="sign-in">
-            <fieldset>
-                <div className="heading">
-                    <h1>Login</h1>
-                </div>
-                <form id="sign-in-form" onSubmit={validateForm}>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="Enter your email"
-                        required
-                    />
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+            <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-8">
+                <h1 className="text-3xl font-bold text-green-600 text-center mb-6">Login</h1>
+                
+                <form id="sign-in-form" onSubmit={validateForm} className="space-y-4">
+                    {/* Email */}
+                    <div className="flex flex-col">
+                        <label htmlFor="email" className="mb-1 text-gray-700 font-medium">Email:</label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            required
+                            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400"
+                        />
+                    </div>
 
-                    <label htmlFor="password">Password:</label>
-                    <div className="password-wrapper">
+                    {/* Password */}
+                    <div className="flex flex-col relative">
+                        <label htmlFor="password" className="mb-1 text-gray-700 font-medium">Password:</label>
                         <input
                             type={showPassword ? "text" : "password"}
                             name="password"
@@ -57,25 +60,40 @@ const Sign_In = () => {
                             placeholder="Enter your password"
                             minLength="6"
                             required
+                            className="border border-gray-300 rounded-lg px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400"
                         />
                         <FaEye
-                            className="eye-icon"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
                             onMouseDown={() => setShowPassword(true)}
                             onMouseUp={() => setShowPassword(false)}
                             onMouseLeave={() => setShowPassword(false)}
                         />
                     </div>
 
-                    <button type="submit" className="btn-sign-in">Sign In</button>
+                    {/* Submit Button */}
+                    <button
+                        type="submit"
+                        className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition-colors"
+                    >
+                        Sign In
+                    </button>
                 </form>
 
-                {/* Redirect text instead of button */}
-                <p className="redirect-text">
-                    Don’t have an account yet? <Link to="/sign-up">Sign Up</Link>
+                {/* Redirect Text */}
+                <p className="text-center text-gray-600 mt-4">
+                    Don’t have an account yet?{" "}
+                    <Link to="/sign-up" className="text-green-600 hover:underline">
+                        Sign Up
+                    </Link>
                 </p>
 
-                {successMessage && <div className="success-message">{successMessage}</div>}
-            </fieldset>
+                {/* Success Message */}
+                {successMessage && (
+                    <div className="mt-4 text-green-600 font-medium text-center">
+                        {successMessage}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
