@@ -1,29 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { addToCart } from '../../apiComponents/api-cart';
-import { fetchProducts } from '../../apiComponents/api-products';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../CartPage/cart-context'; // <-- use your CartContext
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../apiComponents/api-cart";
+import { useCart } from "../CartPage/cart-context";
+import { useProducts } from "./product-context"; // <-- use the new context
 
 const MenuPage = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { cart, setCart } = useCart(); // access CartContext
-
-  // Load products
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchProducts();
-        setProducts(data || []);
-      } catch (err) {
-        console.error("Failed to fetch products:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, []);
+  const { cart, setCart } = useCart();
+  const { products, loading } = useProducts(); // <-- grab from context
 
   const handleAddToCart = async (product) => {
     const accessToken = !!localStorage.getItem("accessToken");
@@ -34,14 +18,14 @@ const MenuPage = () => {
 
     const quantity = 1;
 
-    // Call API to add item to cart
+    // Call API
     const result = await addToCart(product, quantity);
     if (!result.success) {
       alert(result.message || "Failed to add item.");
       return;
     }
 
-    // Map backend cart object to frontend cart array
+    // Sync with backend cart
     if (result.cart && typeof result.cart === "object") {
       const mappedCart = Object.values(result.cart).map(item => ({
         id: item.id,
@@ -52,7 +36,7 @@ const MenuPage = () => {
       }));
       setCart(mappedCart);
     } else {
-      // Fallback if result.cart is missing
+      // Fallback if API doesn’t return full cart
       const existingItem = cart.find(item => item.id === product.id);
       if (existingItem) {
         const updatedCart = cart.map(item =>

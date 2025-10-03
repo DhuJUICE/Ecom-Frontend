@@ -1,6 +1,8 @@
 import React from "react";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { CartProvider } from "./components/pageComponents/CartPage/cart-context";
+import { ProductProvider } from "./components/pageComponents/MenuPage/product-context";
+
 import ScrollToTop from "./components/scrollComponents/scrollToTop";
 
 // Importing your components
@@ -17,6 +19,7 @@ import Footer from './components/sectionComponents/footer';
 function App() {
   return (
     <CartProvider>
+	<ProductProvider>
       <Router>
         
         <div className="App">
@@ -41,6 +44,7 @@ function App() {
 		  <ScrollToTop />
         </div>
       </Router>
+	</ProductProvider>
     </CartProvider>
   );
 }
