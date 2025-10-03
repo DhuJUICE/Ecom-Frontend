@@ -7,7 +7,6 @@ import ScrollToTop from "./components/scrollComponents/scrollToTop";
 import Cart from "./components/pageComponents/CartPage/cart";
 import Checkout from "./components/pageComponents/CheckoutPage/checkout";
 import PaymentSuccessPage from "./components/pageComponents/CheckoutPage/PaymentSuccess";
-import Contact from "./components/pageComponents/ContactPage/contact";
 import Menu from "./components/pageComponents/MenuPage/menu";
 import Sign_In from "./components/userManagementComponents/sign-in";
 import Sign_Up from "./components/userManagementComponents/sign-up";
@@ -19,7 +18,7 @@ function App() {
   return (
     <CartProvider>
       <Router>
-        <ScrollToTop />
+        
         <div className="App">
           <div className="header">
             <Header />
@@ -31,7 +30,6 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/success" element={<PaymentSuccessPage />} />
-              <Route path="/contact" element={<Contact />} />
               <Route path="/sign-in" element={<Sign_In />} />
               <Route path="/sign-up" element={<Sign_Up />} />
             </Routes>
@@ -40,6 +38,7 @@ function App() {
           <div className="footer">
             <Footer />
           </div>
+		  <ScrollToTop />
         </div>
       </Router>
     </CartProvider>

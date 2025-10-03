@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { addToCart } from '../../apiComponents/api-cart';
-import { preloadMenuProductData } from '../../preLoadMenuData/preloadMenuProducts';
+import { fetchProducts } from '../../apiComponents/api-products'; // <-- use your fetch
 import { useNavigate } from 'react-router-dom';
 
 const MenuPage = () => {
@@ -11,7 +11,7 @@ const MenuPage = () => {
   
   useEffect(() => {
     const loadData = async () => {
-      const data = await preloadMenuProductData();
+      const data = await fetchProducts();
       setProducts(data || []);
       setLoading(false);
     };

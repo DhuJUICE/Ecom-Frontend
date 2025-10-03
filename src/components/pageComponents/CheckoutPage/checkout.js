@@ -3,7 +3,7 @@ import { useCart } from "../CartPage/cart-context";
 import { processPayment } from "../../apiComponents/api-checkout";
 
 const Checkout = () => {
-  const { cart } = useCart();
+  const { cart } = useCart(); // read from context only
   const [deliveryMethod, setDeliveryMethod] = useState("collect");
   const deliveryFee = 50;
 
@@ -14,13 +14,7 @@ const Checkout = () => {
 
   const handleCheckout = async (event) => {
     event.preventDefault();
-
-    if (cart.length === 0) {
-      alert("Your cart is empty!");
-      return;
-    }
-
-    // Call API to create PayFast payment and redirect
+    if (cart.length === 0) return alert("Your cart is empty!");
     await processPayment(totalPrice, orderNumber, deliveryMethod);
   };
 
@@ -96,7 +90,6 @@ const Checkout = () => {
           </div>
         </div>
 
-        {/* Place Order Button */}
         <form onSubmit={handleCheckout} className="text-center">
           <button
             type="submit"

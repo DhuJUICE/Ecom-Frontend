@@ -20,10 +20,6 @@ export const setAccessToken = (token, expiresInMilliseconds = 60 * 60 * 1000) =>
   export const setRefreshToken = (token) => {
     localStorage.setItem("refreshToken", token);
   };
-
-  export const setBusinessOwner = (business_owner) => {
-	localStorage.setItem("business_owner", business_owner);
-  };
   
   export const getRefreshToken = () => {
     return localStorage.getItem("refreshToken");
@@ -38,7 +34,4 @@ export const setAccessToken = (token, expiresInMilliseconds = 60 * 60 * 1000) =>
     localStorage.removeItem("refreshToken");
   };
 
-  export const removeBusinessOwner = () => {
-	localStorage.removeItem("business_owner");
-  };
   
