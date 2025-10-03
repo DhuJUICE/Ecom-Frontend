@@ -1,106 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { processPayment } from '../../apiComponents/api-checkout';
+import React, { useState } from "react";
+import { useCart } from "../CartPage/cart-context"; 
+import { processPayment } from "../../apiComponents/api-checkout";
 
 const Checkout = () => {
-  const navigate = useNavigate();
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const { cart } = useCart();
   const [deliveryMethod, setDeliveryMethod] = useState("collect");
-  const [deliveryFee] = useState(50);
-  const [paystackLoaded, setPaystackLoaded] = useState(false);
+  const deliveryFee = 50;
 
-  const subtotal = parseFloat(localStorage.getItem("cartSubtotal")) || 0;
+  const subtotal = cart.reduce((sum, item) => sum + item.prodPrice * item.quantity, 0);
   const totalPrice = deliveryMethod === "delivery" ? subtotal + deliveryFee : subtotal;
 
-  // Load Paystack script dynamically
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://js.paystack.co/v1/inline.js";
-    script.onload = () => setPaystackLoaded(true);
-    document.body.appendChild(script);
-    return () => document.body.removeChild(script);
-  }, []);
+  const orderNumber = Math.floor(1000 + Math.random() * 9000);
 
-  const handleCheckout = (event) => {
+  const handleCheckout = async (event) => {
     event.preventDefault();
 
-    if (paymentMethod === "cash") {
-      alert("Order placed! Thank you for your order.");
-      navigate("/menu");
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
       return;
     }
 
-    if (paymentMethod === "card") {
-      if (!paystackLoaded || !window.PaystackPop) {
-        alert("Payment system not loaded yet. Try again in a moment.");
-        return;
-      }
-
-      try {
-        const handler = window.PaystackPop.setup({
-          key: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY || "pk_test_1a8d4d898af9fb129b0f4b24d38a55cdf2fdecc4",
-          email: localStorage.getItem("userEmail") || "customer@example.com",
-          amount: totalPrice * 100,
-          currency: "ZAR",
-          ref: `PSK_${Date.now()}`,
-          callback: function(response) {
-            processPayment(totalPrice, response.reference)
-              .then(() => {
-                alert("Payment processed successfully!");
-                navigate("/menu");
-              })
-              .catch(err => {
-                alert("Error processing payment: " + err.message);
-                console.error(err);
-              });
-          },
-        });
-        handler.openIframe();
-      } catch (err) {
-        alert("Error creating payment handler: " + err.message);
-        console.error(err);
-      }
-    }
+    // Call API to create PayFast payment and redirect
+    await processPayment(totalPrice, orderNumber, deliveryMethod);
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
-      <div className="bg-white shadow-lg rounded-xl p-8 md:p-12 w-full max-w-2xl">
-        <h1 className="text-3xl font-bold text-green-600 mb-6 text-center">Checkout</h1>
-
-        {/* Payment Method */}
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">Payment Method</h2>
-          <div className="flex gap-6">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="card"
-                checked={paymentMethod === "card"}
-                onChange={() => setPaymentMethod("card")}
-                className="w-4 h-4 text-green-500 accent-green-500"
-              />
-              <span>Pay with Card</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="cash"
-                checked={paymentMethod === "cash"}
-                onChange={() => setPaymentMethod("cash")}
-                className="w-4 h-4 text-green-500 accent-green-500"
-              />
-              <span>Pay with Cash</span>
-            </label>
-          </div>
-        </div>
+    <main className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4">
+      <div className="bg-white shadow-2xl rounded-2xl p-8 md:p-12 w-full max-w-3xl">
+        <h1 className="text-4xl font-extrabold text-green-600 mb-8 text-center tracking-wide">
+          Checkout
+        </h1>
 
         {/* Delivery Method */}
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">Delivery Method</h2>
-          <div className="flex gap-6">
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold mb-3 text-gray-700">Delivery Method</h2>
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="radio"
@@ -108,9 +42,9 @@ const Checkout = () => {
                 value="collect"
                 checked={deliveryMethod === "collect"}
                 onChange={() => setDeliveryMethod("collect")}
-                className="w-4 h-4 text-green-500 accent-green-500"
+                className="w-5 h-5 text-green-500 accent-green-500"
               />
-              <span>Collect (No Delivery Fee)</span>
+              <span className="text-gray-800 font-medium">Collect (No Delivery Fee)</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -119,27 +53,56 @@ const Checkout = () => {
                 value="delivery"
                 checked={deliveryMethod === "delivery"}
                 onChange={() => setDeliveryMethod("delivery")}
-                className="w-4 h-4 text-green-500 accent-green-500"
+                className="w-5 h-5 text-green-500 accent-green-500"
               />
-              <span>Delivery (+R{deliveryFee})</span>
+              <span className="text-gray-800 font-medium">Delivery (+R{deliveryFee})</span>
             </label>
           </div>
         </div>
 
-        {/* Total Price */}
-        <div className="mb-6 text-right">
-          <h3 className="text-xl font-semibold">
-            Total: <span className="text-green-600">R{totalPrice.toFixed(2)}</span>
-          </h3>
+        {/* Receipt */}
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm mb-8">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-700 border-b pb-2">Your Order</h2>
+          <ul className="divide-y divide-gray-200 mb-4">
+            {cart.map(item => (
+              <li key={item.id} className="flex justify-between py-3">
+                <span className="text-gray-800 font-medium">{item.name} x {item.quantity}</span>
+                <span className="text-gray-700">R{(item.prodPrice * item.quantity).toFixed(2)}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex justify-between text-gray-700 mb-2">
+            <span>Subtotal:</span>
+            <span>R{subtotal.toFixed(2)}</span>
+          </div>
+
+          {deliveryMethod === "delivery" && (
+            <div className="flex justify-between text-gray-700 mb-2">
+              <span>Delivery Fee:</span>
+              <span>R{deliveryFee}</span>
+            </div>
+          )}
+
+          <div className="flex justify-between font-bold text-green-600 text-xl mb-4 border-t border-gray-200 pt-2">
+            <span>Total:</span>
+            <span>R{totalPrice.toFixed(2)}</span>
+          </div>
+
+          <div className="text-center mt-6 space-y-1">
+            <p className="text-lg font-semibold text-gray-800">HeranBites</p>
+            <p className="text-gray-600 italic">Thank you for your order!</p>
+            <p className="text-gray-500 font-mono">ORDER# {orderNumber}</p>
+          </div>
         </div>
 
         {/* Place Order Button */}
         <form onSubmit={handleCheckout} className="text-center">
           <button
             type="submit"
-            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors"
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-10 rounded-xl transition-transform transform hover:scale-105 shadow-md"
           >
-            Place Order
+            Pay & Place Order
           </button>
         </form>
       </div>

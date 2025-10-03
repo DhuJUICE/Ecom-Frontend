@@ -24,7 +24,7 @@ const Sign_In = () => {
 
         if (result.success) {
             await preloadMenuProductData();
-            navigate('/menu');
+            navigate('/');
             window.location.reload();
         } else {
             alert(result.message);

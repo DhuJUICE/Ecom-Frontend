@@ -7,18 +7,24 @@ import {
   removeItemFromCartAPI 
 } from '../../apiComponents/api-cart';
 import { FaPlus, FaMinus, FaTrash } from 'react-icons/fa';
+import { useCart } from "./cart-context"; 
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
+	const navigate = useNavigate();
   const [popupMessage, setPopupMessage] = useState(""); 
   const [loading, setLoading] = useState(true); 
   const [cartItems, setCartItems] = useState([]);
   const [isCheckoutPage, setIsCheckoutPage] = useState(false);
   const [showCartPage, setShowCartPage] = useState(true);
 
+  const { cart, setCart } = useCart();
+
   useEffect(() => {
     const loadCart = async () => {
       const data = await fetchCartItems();
       setCartItems(data || []);
+      setCart(data || []); // Initialize global cart context
       setLoading(false);
     };
     loadCart();
@@ -30,12 +36,12 @@ const Cart = () => {
     const result = await incrementCartItemAPI(productId);
     if (!result.success) return alert(result.message);
 
-    setCartItems(prev =>
-      prev.map(item =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
-      )
+    const updatedCart = cartItems.map(item =>
+      item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
     );
 
+    setCartItems(updatedCart);
+    setCart(updatedCart); // Update global cart context
     updateBadge();
   };
 
@@ -43,14 +49,14 @@ const Cart = () => {
     const result = await decrementCartItemAPI(productId);
     if (!result.success) return alert(result.message);
 
-    setCartItems(prev =>
-      prev.map(item =>
-        item.id === productId && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 } 
-          : item
-      )
+    const updatedCart = cartItems.map(item =>
+      item.id === productId && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
     );
 
+    setCartItems(updatedCart);
+    setCart(updatedCart); // Update global cart context
     updateBadge();
   };
 
@@ -58,8 +64,9 @@ const Cart = () => {
     const result = await removeItemFromCartAPI(productId);
     if (!result.success) return alert(result.message);
 
-    setCartItems(prev => prev.filter(item => item.id !== productId));
-
+    const updatedCart = cartItems.filter(item => item.id !== productId);
+    setCartItems(updatedCart);
+    setCart(updatedCart); // Update global cart context
     updateBadge();
   };
 
@@ -69,7 +76,8 @@ const Cart = () => {
 
   const goToCheckout = () => {
     if (cartItems.length === 0) return alert("Your cart is empty!");
-    localStorage.setItem("cartSubtotal", calculateTotal().toFixed(2));
+    navigate('/checkout');
+	localStorage.setItem("cartSubtotal", calculateTotal().toFixed(2));
     setShowCartPage(false);
     setIsCheckoutPage(true);
   };
@@ -94,22 +102,17 @@ const Cart = () => {
             <div className="grid gap-6">
               {cartItems.map(item => (
                 <div key={item.id} className="flex flex-col sm:flex-row items-center sm:items-start bg-gray-50 rounded-lg shadow p-4">
-                  {/* Product Image */}
                   <img
                     src={item.image}
                     alt={item.name}
                     className="w-32 h-32 object-cover rounded-lg mb-4 sm:mb-0 sm:mr-6"
                   />
-
-                  {/* Details */}
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
                     <p className="text-green-600 font-bold mt-1">R {item.prodPrice}</p>
                     <p className="text-gray-700 mt-2">Quantity: {item.quantity}</p>
                     <p className="text-gray-800 font-medium mt-1">Total: R {(item.quantity * item.prodPrice).toFixed(2)}</p>
                   </div>
-
-                  {/* Actions */}
                   <div className="flex flex-col items-center space-y-2 mt-4 sm:mt-0">
                     <button
                       onClick={() => incrementCartItem(item.id)}
@@ -135,7 +138,6 @@ const Cart = () => {
             </div>
           )}
 
-          {/* Cart Summary */}
           {cartItems.length > 0 && (
             <div className="mt-8 flex flex-col sm:flex-row justify-between items-center bg-gray-100 rounded-lg p-4">
               <p className="text-lg font-semibold text-gray-800">

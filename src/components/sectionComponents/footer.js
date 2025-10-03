@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
         {/* Left side */}
         <div className="text-gray-600 text-sm mb-2 sm:mb-0">
-          &copy; {new Date().getFullYear()} Tummy Yummy's. All Rights Reserved.
+          &copy; {new Date().getFullYear()} HeranBites. All Rights Reserved.
         </div>
 
         {/* Right side */}

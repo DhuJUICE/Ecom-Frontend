@@ -1,50 +1,30 @@
 // api-checkout.js
-import {API_URL} from "./api-base-url"
+import { API_URL } from "./api-base-url";
 
-export const logTransaction = async (paymentMethod) => {
-    try {
-      const response = await fetch(`${API_URL}/api/transaction`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Assuming token is stored in localStorage
-        },
-        body: JSON.stringify({ paymentMethod }),
-      });
-  
-      const data = await response.json();
-      if (response.ok) {
-        console.log("Transaction logged successfully:", data);
-        alert("Transaction logged successfully");
-      } else {
-        console.error("Failed to log transaction:", data);
-      }
-    } catch (error) {
-      console.error("Error logging transaction:", error);
+export const processPayment = async (totalPrice, orderNumber, deliveryMethod) => {
+  try {
+    const response = await fetch(`${API_URL}/api/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify({
+        totalPurchaseTotal: totalPrice.toFixed(2),
+        orderNumber: orderNumber,
+        deliveryMethod: deliveryMethod,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      // Redirect user to PayFast payment page
+      window.location.href = data.payment_url;
+    } else {
+      alert("Payment error: " + (data.error || "Unknown error"));
     }
-  };
-  
-  export const processPayment = async (totalPrice, reference) => {
-	try {
-	  const response = await fetch(`${API_URL}/api/checkout`, {
-		method: "POST",
-		headers: {
-		  "Content-Type": "application/json",
-		  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-		},
-		body: JSON.stringify({
-		  totalPurchaseTotal: totalPrice,
-		  reference: reference
-		}),
-	  });
-  
-	  const data = await response.json();
-	  if (response.ok) {
-		alert("Payment successful", data);
-	  } else {
-		alert("Payment verification failed", data);
-	  }
-	} catch (error) {
-		alert("Error verifying payment:", error);
-	}
-  };
+  } catch (error) {
+    alert("Error processing payment: " + error.message);
+  }
+};
