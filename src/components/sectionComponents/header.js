@@ -121,7 +121,7 @@ const Header = () => {
         <ul className="container mx-auto flex flex-wrap justify-center space-x-4 py-3 px-6">
           <li>
             <button
-              onClick={() => navigate('/menu')}
+              onClick={() => navigate('/')}
               className="text-gray-700 hover:text-green-600 font-medium transition-colors"
             >
               Menu

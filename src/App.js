@@ -34,7 +34,6 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/menu" element={<Menu />} />
               <Route path="/sign-in" element={<Sign_In />} />
               <Route path="/sign-up" element={<Sign_Up />} />
               <Route path="/upload-product" element={<UploadProduct />} />
