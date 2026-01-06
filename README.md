@@ -43,10 +43,12 @@ npm start
 
 The application will run on http://localhost:3000.
 
+
 NOTES
 
 This frontend is part of a larger full-stack system.
 The backend API must be running for full functionality.
+
 
 WHAT THIS REPO DEMONSTRATES
 
