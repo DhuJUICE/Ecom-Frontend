@@ -55,7 +55,5 @@ The backend API must be running for full functionality.
 WHAT THIS REPO DEMONSTRATES
 
 Frontend application structure
-
 State and component-based UI development
-
 Integration with REST APIs
