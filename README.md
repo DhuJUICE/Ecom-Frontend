@@ -1,3 +1,5 @@
+> *Part of a full-stack food ordering platform (see companion repository for backend/frontend).*
+
 # Food Ordering Platform – Frontend
 
 The React frontend for a food ordering and prepayment platform built to help small food vendors accept online card payments and reduce food wastage through pre-orders.
